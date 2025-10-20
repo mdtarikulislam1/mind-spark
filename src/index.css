@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 /* global.css */
 .scrollbar-none::-webkit-scrollbar {
   display: none;
@@ -7,4 +9,15 @@
 .scrollbar-none {
   -ms-overflow-style: none;  /* IE & Edge */
   scrollbar-width: none;      /* Firefox */
+}
+
+
+/* global share */
+
+.active-bg{
+  @apply bg-blue-800 dark:bg-gray-700
+}
+
+.hover-bg{
+  @apply hover:bg-blue-800 dark:hover:bg-gray-700
 }

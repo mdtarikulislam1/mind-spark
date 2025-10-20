@@ -7,21 +7,21 @@ export default function RootLayout() {
   const { desktopOpen } = useSidebarStore();
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen dark:bg-gray-800">
       {/* Top Navbar is fixed */}
       <div
-        className={`pt-16 grid min-h-screen ${
+        className={` grid min-h-screen ${
           desktopOpen ? "lg:grid-cols-[270px_1fr]" : "lg:grid-cols-[0_1fr]"
         }`}
       >
         {/* Sidebar */}
-        <div className="relative z-50">
+        <div className="relative z-50 ">
           <Navbar />
         </div>
 
         {/* Main Content */}
-        <div className="flex flex-col overflow-y-auto">
-          <div className="min-h-screen p-6">
+        <div className="flex flex-col overflow-y-auto dark:bg-gray-800 dark:text-white">
+          <div className="min-h-[calc(100vh-70px)] pt-16 ">
             <Outlet />
           </div>
         </div>

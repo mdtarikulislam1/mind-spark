@@ -2,13 +2,19 @@ import React, { useState } from "react";
 import {
   FaBars,
   FaTimes,
-  FaHome,
-  FaUserAlt,
+  FaShoppingCart,
   FaCog,
   FaChevronDown,
 } from "react-icons/fa";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router"; // ✅ Corrected import
 import useSidebarStore from "../Zustand-state/useSidebarStore";
+import { RiDashboardFill, RiFolderReceivedFill } from "react-icons/ri";
+import { AiOutlineOrderedList } from "react-icons/ai";
+import { MdHistory, MdInventory, MdOutlineInventory } from "react-icons/md";
+import { FcSalesPerformance } from "react-icons/fc";
+import { IoMdAdd } from "react-icons/io";
+import ThemeToggle from "./Shared/DarkModeToggle"; // ✅ working dark mode toggle
+import { LuPanelBottomOpen } from "react-icons/lu";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -16,25 +22,48 @@ export default function Navbar() {
   const { desktopOpen, toggleDesktop } = useSidebarStore();
 
   const navItems = [
-    { name: "Home", icon: <FaHome />, link: "/" },
+    { name: "Dashboard", icon: <RiDashboardFill />, link: "/" },
     {
-      name: "Profile",
-      icon: <FaUserAlt />,
+      name: "Product",
+      icon: <FaShoppingCart />,
       subItems: [
-        { name: "My Account", link: "/profile/account", icon: <FaUserAlt /> },
-        { name: "Settings", link: "/profile/settings", icon: <FaCog /> },
+        {
+          name: "Procurement",
+          link: "/product/procurement",
+          icon: <MdInventory />,
+        },
+        {
+          name: "Received",
+          link: "/product/received",
+          icon: <RiFolderReceivedFill />,
+        },
+        {
+          name: "Inventory",
+          link: "/product/inventory",
+          icon: <MdOutlineInventory />,
+        },
+        {
+          name: "Add Product",
+          link: "/product/addProduct",
+          icon: <IoMdAdd />,
+        },
       ],
+    },
+    {
+      name: "Orders",
+      icon: <AiOutlineOrderedList />,
+      link: "/orders",
+    },
+    {
+      name: "Sales",
+      icon: <FcSalesPerformance />,
+      link: "/sales",
     },
     {
       name: "Settings",
       icon: <FaCog />,
       subItems: [
-        { name: "Privacy", link: "/settings/privacy", icon: <FaCog /> },
-        {
-          name: "Notifications",
-          link: "/settings/notifications",
-          icon: <FaUserAlt />,
-        },
+        { name: "History", link: "/settings/history", icon: <MdHistory /> },
       ],
     },
   ];
@@ -43,45 +72,38 @@ export default function Navbar() {
     setActiveSubmenu(activeSubmenu === index ? null : index);
   };
 
-  const activeClass = "bg-blue-800";
-
   return (
     <>
-      {/* Top Navbar */}
-      <nav className="fixed top-0 left-0 w-full bg-blue-600 text-white flex items-center justify-between px-4 py-3  z-50">
+      {/* 🌐 Top Navbar */}
+      <nav className="fixed top-0 left-0 w-full bg-blue-600 dark:bg-gray-800 text-white flex items-center justify-between px-4 py-3 z-20 dark:border-b dark:border-gray-600">
         <h1 className="text-lg font-bold">Mind Spark</h1>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="text-2xl lg:hidden focus:outline-none"
-        >
-          {mobileOpen ? <FaTimes /> : <FaBars />}
-        </button>
-
-        {/* Desktop toggle */}
-        <button
-          onClick={toggleDesktop}
-          className="hidden lg:block text-2xl focus:outline-none"
-        >
-          {desktopOpen ? <FaTimes /> : <FaBars />}
-        </button>
+        {/* 🌐 Right-side icons */}
+        <div className="flex items-center gap-3">
+          <ThemeToggle /> {/* ✅ Dark Mode Toggle */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="text-2xl lg:hidden focus:outline-none"
+          >
+            {mobileOpen ? <FaTimes /> : <FaBars />}
+          </button>
+        </div>
       </nav>
 
-    
-      {/* Mobile Sidebar */}
+      {/* 📱 Mobile Sidebar */}
       <div
-        className={`lg:hidden fixed top-0 left-0 pt-16 h-screen w-64 text-white bg-blue-700 z-40 transition-transform duration-300
-      ${mobileOpen ? "translate-x-0" : "-translate-x-full"}`}
+        className={`lg:hidden fixed top-0 left-0 pt-16 h-screen w-64 bg-blue-700 dark:bg-gray-900 text-white z-40 transition-transform duration-300 ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
       >
-        <ul className="overflow-y-auto h-[calc(100vh-4rem)] p-4 space-y-3 scrollbar-none">
+        <ul className="p-4 space-y-3 overflow-y-auto h-[calc(100vh-4rem)]">
           {navItems.map((item, index) => (
             <li key={index}>
               {item.subItems ? (
                 <>
                   <div
                     onClick={() => toggleSubmenu(index)}
-                    className="flex items-center justify-between text-lg cursor-pointer hover:bg-blue-800 px-3 py-2 rounded-md transition"
+                    className="flex items-center justify-between text-base cursor-pointer px-3 py-2 rounded-md hover:bg-blue-800 dark:hover:bg-gray-700 transition"
                   >
                     <div className="flex items-center gap-3">
                       {item.icon}
@@ -94,21 +116,22 @@ export default function Navbar() {
                     />
                   </div>
 
-                  {item.subItems && activeSubmenu === index && (
-                    <ul className="ml-10 mt-2 space-y-2 w-full">
+                  {/* Submenu */}
+                  {activeSubmenu === index && (
+                    <ul className="ml-8 mt-2 space-y-2">
                       {item.subItems.map((sub, subIndex) => (
-                        <li key={subIndex} className="w-full">
+                        <li key={subIndex}>
                           <NavLink
                             to={sub.link}
                             className={({ isActive }) =>
-                              `flex items-center w-full text-sm px-2 py-2 rounded-md ${
-                                isActive ? "bg-blue-800" : "hover:bg-blue-800"
+                              `flex items-center gap-2 px-2 py-2 text-sm rounded-md ${
+                                isActive
+                                  ? "bg-blue-900 dark:bg-gray-700"
+                                  : "hover:bg-blue-800 dark:hover:bg-gray-700"
                               }`
                             }
                           >
-                            {sub.icon && (
-                              <span className="mr-2">{sub.icon}</span>
-                            )}
+                            {sub.icon}
                             {sub.name}
                           </NavLink>
                         </li>
@@ -121,7 +144,9 @@ export default function Navbar() {
                   to={item.link}
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2 rounded-md ${
-                      isActive ? activeClass : "hover:bg-blue-800"
+                      isActive
+                        ? "bg-blue-900 dark:bg-gray-700"
+                        : "hover:bg-blue-800 dark:hover:bg-gray-700"
                     }`
                   }
                 >
@@ -134,13 +159,14 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {/* Desktop Sidebar */}
+      {/* 💻 Desktop Sidebar */}
       <div
-        className={`hidden lg:block fixed top-0 left-0 pt-16 h-screen text-white bg-blue-700 z-40 transition-all duration-300 
-      ${desktopOpen ? "w-[270px]" : "w-0"}`}
+        className={`hidden lg:block fixed top-0 left-0 pt-16 h-screen bg-blue-700 dark:bg-gray-900 text-white transition-all duration-300 ${
+          desktopOpen ? "w-[260px]" : "w-0"
+        }`}
       >
         <ul
-          className={`overflow-y-auto h-[calc(100vh-4rem)] p-4 space-y-3 scrollbar-none ${
+          className={`overflow-y-auto h-[calc(100vh-4rem)] p-4 space-y-3 ${
             desktopOpen ? "block" : "hidden"
           }`}
         >
@@ -150,7 +176,7 @@ export default function Navbar() {
                 <>
                   <div
                     onClick={() => toggleSubmenu(index)}
-                    className="flex items-center justify-between text-lg cursor-pointer hover:bg-blue-800 px-3 py-2 rounded-md transition"
+                    className="flex items-center justify-between cursor-pointer px-3 py-2 rounded-md hover:bg-blue-800 dark:hover:bg-gray-700 transition"
                   >
                     <div className="flex items-center gap-3">
                       {item.icon}
@@ -163,21 +189,22 @@ export default function Navbar() {
                     />
                   </div>
 
-                  {item.subItems && activeSubmenu === index && desktopOpen && (
-                    <ul className="ml-10 mt-2 space-y-2 w-full">
+                  {/* Submenu */}
+                  {activeSubmenu === index && desktopOpen && (
+                    <ul className="ml-8 mt-2 space-y-2">
                       {item.subItems.map((sub, subIndex) => (
-                        <li key={subIndex} className="w-full">
+                        <li key={subIndex}>
                           <NavLink
                             to={sub.link}
                             className={({ isActive }) =>
-                              `flex items-center w-full text-sm px-2 py-2 rounded-md ${
-                                isActive ? "bg-blue-800" : "hover:bg-blue-800"
+                              `flex items-center gap-2 px-2 py-2 text-sm rounded-md ${
+                                isActive
+                                  ? "bg-blue-900 dark:bg-gray-700"
+                                  : "hover:bg-blue-800 dark:hover:bg-gray-700"
                               }`
                             }
                           >
-                            {sub.icon && (
-                              <span className="mr-2">{sub.icon}</span>
-                            )}
+                            {sub.icon}
                             {sub.name}
                           </NavLink>
                         </li>
@@ -190,7 +217,9 @@ export default function Navbar() {
                   to={item.link}
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2 rounded-md ${
-                      isActive ? activeClass : "hover:bg-blue-800"
+                      isActive
+                        ? "bg-blue-900 dark:bg-gray-700"
+                        : "hover:bg-blue-800 dark:hover:bg-gray-700"
                     }`
                   }
                 >
@@ -201,6 +230,16 @@ export default function Navbar() {
             </li>
           ))}
         </ul>
+
+        {/* 💡 Desktop Toggle Button */}
+        <div className="absolute top-12 my-2 right-[-30px]">
+          <button
+            onClick={toggleDesktop}
+            className="text-2xl text-blue-700 dark:text-white"
+          >
+          <LuPanelBottomOpen/>
+          </button>
+        </div>
       </div>
     </>
   );
