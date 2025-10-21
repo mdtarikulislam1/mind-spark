@@ -15,6 +15,7 @@ import { FcSalesPerformance } from "react-icons/fc";
 import { IoMdAdd } from "react-icons/io";
 import ThemeToggle from "./Shared/DarkModeToggle"; // ✅ working dark mode toggle
 import { LuPanelBottomOpen } from "react-icons/lu";
+import { GiExpense } from "react-icons/gi";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -60,6 +61,11 @@ export default function Navbar() {
       link: "/sales",
     },
     {
+      name: "Expenses",
+      icon: <GiExpense />,
+      link: "/expenses",
+    },
+    {
       name: "Settings",
       icon: <FaCog />,
       subItems: [
@@ -74,11 +80,11 @@ export default function Navbar() {
 
   return (
     <>
-      {/* 🌐 Top Navbar */}
-      <nav className="fixed top-0 left-0 w-full bg-blue-600 dark:bg-gray-800 text-white flex items-center justify-between px-4 py-3 z-20 dark:border-b dark:border-gray-600">
+      {/*  Top Navbar */}
+      <nav className="fixed top-0 left-0 w-full bg-blue-700 dark:bg-gray-800 text-white flex items-center justify-between px-4 py-3 z-50 dark:border-b dark:border-gray-600">
         <h1 className="text-lg font-bold">Mind Spark</h1>
 
-        {/* 🌐 Right-side icons */}
+        {/*Right-side icons */}
         <div className="flex items-center gap-3">
           <ThemeToggle /> {/* ✅ Dark Mode Toggle */}
           <button
@@ -90,7 +96,7 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* 📱 Mobile Sidebar */}
+      {/* Mobile Sidebar */}
       <div
         className={`lg:hidden fixed top-0 left-0 pt-16 h-screen w-64 bg-blue-700 dark:bg-gray-900 text-white z-40 transition-transform duration-300 ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
@@ -159,7 +165,7 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {/* 💻 Desktop Sidebar */}
+      {/*  Desktop Sidebar */}
       <div
         className={`hidden lg:block fixed top-0 left-0 pt-16 h-screen bg-blue-700 dark:bg-gray-900 text-white transition-all duration-300 ${
           desktopOpen ? "w-[260px]" : "w-0"
@@ -231,11 +237,11 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* 💡 Desktop Toggle Button */}
-        <div className="absolute top-12 my-2 right-[-30px]">
+        {/*  Desktop Toggle Button */}
+        <div className="absolute top-14 right-[-35px]">
           <button
             onClick={toggleDesktop}
-            className="text-2xl text-blue-700 dark:text-white"
+            className="text-2xl bg-blue-600 p-1 rounded-lg"
           >
           <LuPanelBottomOpen/>
           </button>

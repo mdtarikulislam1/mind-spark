@@ -21,7 +21,7 @@ export default function RootLayout() {
 
         {/* Main Content */}
         <div className="flex flex-col overflow-y-auto dark:bg-gray-800 dark:text-white">
-          <div className="min-h-[calc(100vh-70px)] pt-16 ">
+          <div className="min-h-[calc(100vh-70px)] lg:pt-18 pt-10">
             <Outlet />
           </div>
         </div>

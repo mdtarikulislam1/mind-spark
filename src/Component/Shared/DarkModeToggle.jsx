@@ -20,7 +20,7 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => setDarkMode(!darkMode)}
-      className="dark:text-white"
+      className="dark:text-gray-50 font-bold"
     >
       {darkMode ? <MdOutlineLightMode  size={25}/>: <CiDark  size={25}/>}
     </button>

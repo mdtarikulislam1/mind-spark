@@ -8,6 +8,7 @@ import Sales from "../Pages/Sales";
 import Received from "../Pages/Received";
 import Inventory from "../Pages/Inventory";
 import AddProduct from "../Pages/AddProduct";
+import Expense from "../Pages/Expense";
 
 export const router = createBrowserRouter([
   {
@@ -18,7 +19,22 @@ export const router = createBrowserRouter([
         index: true,
         Component: DashBoard,
       },
-    //   product
+
+      // single component
+      {
+        path: "/sales",
+        Component: Sales,
+      },
+      {
+        path: "/orders",
+        Component: Orders,
+      },
+      {
+        path: "/expenses",
+        Component: Expense,
+      },
+
+      //   product sub component
       {
         path: "/product/procurement",
         Component: Procurement,
@@ -29,25 +45,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/product/inventory",
-        Component: Inventory
+        Component: Inventory,
       },
       {
         path: "/product/addProduct",
-        Component: AddProduct
+        Component: AddProduct,
       },
-      {
-        path: "/orders",
-        Component: Orders
-      },
+
+      // setting sub component
+
       {
         path: "/settings/history",
-        Component: History
+        Component: History,
       },
-      {
-        path: "/sales",
-        Component: Sales
-      },
-      
     ],
   },
 ]);
