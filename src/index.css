@@ -41,6 +41,25 @@
   }
 }
 
+/* icon btn */
+.icon-btn{
+  @apply bg-blue-700 py-1.5 px-3 rounded-md font-semibold text-white flex justify-center items-center gap-1 cursor-pointer
+}
+
+/* global btn */
+.global-btn{
+  @apply bg-blue-600 hover:bg-blue-700 py-1.5 px-3 rounded-md font-semibold text-white  cursor-pointer
+}
+
+.global-cancel-btn{
+  @apply bg-red-600 hover:bg-red-700 py-1.5 px-3 rounded-md font-semibold text-white  cursor-pointer
+}
+
+/* col-dir */
+
+.col-dir{
+  /* @apply */
+}
 /* global-max-w */
 .max-w{
   @apply max-w-7xl mx-auto p-3
@@ -68,4 +87,22 @@
 
 .global_td {
   @apply px-1 py-1 lg:py-2 text-sm font-medium whitespace-normal border border-gray-300 dark:border-gray-700;
+}
+
+
+
+/* Scrollbar লুকানোর জন্য */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE এবং Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+
+/* login register */
+
+.login-button{
+  @apply w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-md transition-transform duration-300 transform hover:scale-105
 }

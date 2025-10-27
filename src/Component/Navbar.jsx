@@ -5,8 +5,9 @@ import {
   FaShoppingCart,
   FaCog,
   FaChevronDown,
+  FaSignOutAlt,
 } from "react-icons/fa";
-import { NavLink } from "react-router"; // ✅ Corrected import
+import { NavLink, useNavigate } from "react-router"; // ✅ Corrected import
 import useSidebarStore from "../Zustand-state/useSidebarStore";
 import { RiDashboardFill, RiFolderReceivedFill } from "react-icons/ri";
 import { AiOutlineOrderedList } from "react-icons/ai";
@@ -16,11 +17,18 @@ import { IoMdAdd } from "react-icons/io";
 import ThemeToggle from "./Shared/DarkModeToggle"; // ✅ working dark mode toggle
 import { LuPanelBottomOpen } from "react-icons/lu";
 import { GiExpense } from "react-icons/gi";
+import { removeToken } from "../Pages/Helper/SessionHelper";
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const { desktopOpen, toggleDesktop } = useSidebarStore();
+   const navigate = useNavigate();
+
+  const handleLogout = () => {
+    removeToken(); // localStorage থেকে token remove করো
+    navigate("/login"); // login page এ পাঠাও
+  };
 
   const navItems = [
     { name: "Dashboard", icon: <RiDashboardFill />, link: "/" },
@@ -29,26 +37,21 @@ export default function Navbar() {
       icon: <FaShoppingCart />,
       subItems: [
         {
-          name: "Procurement",
-          link: "/product/procurement",
-          icon: <MdInventory />,
-        },
-        {
-          name: "Received",
-          link: "/product/received",
-          icon: <RiFolderReceivedFill />,
-        },
-        {
-          name: "Inventory",
-          link: "/product/inventory",
-          icon: <MdOutlineInventory />,
-        },
-        {
           name: "Add Product",
           link: "/product/addProduct",
           icon: <IoMdAdd />,
         },
       ],
+    },
+    {
+      name: "Inventory",
+      link: "/product/inventory",
+      icon: <MdOutlineInventory />,
+    },
+    {
+      name: "Purchase",
+      link: "/product/procurement",
+      icon: <MdInventory />,
     },
     {
       name: "Orders",
@@ -65,13 +68,14 @@ export default function Navbar() {
       icon: <GiExpense />,
       link: "/expenses",
     },
-    {
-      name: "Settings",
-      icon: <FaCog />,
-      subItems: [
-        { name: "History", link: "/settings/history", icon: <MdHistory /> },
-      ],
-    },
+    // {
+    //   name: "Settings",
+    //   icon: <FaCog />,
+    //   subItems: [
+    //     { name: "History", link: "/settings/history", icon: <MdHistory /> },
+    //     { name: "Create User", link: "/settings/createUser", icon: <MdHistory /> },
+    //   ],
+    // },
   ];
 
   const toggleSubmenu = (index) => {
@@ -80,13 +84,21 @@ export default function Navbar() {
 
   return (
     <>
-      {/*  Top Navbar */}
+      {/* Top Navbar */}
       <nav className="fixed top-0 left-0 w-full bg-blue-700 dark:bg-gray-800 text-white flex items-center justify-between px-4 py-3 z-50 dark:border-b dark:border-gray-600">
         <h1 className="text-lg font-bold">Mind Spark</h1>
 
-        {/*Right-side icons */}
         <div className="flex items-center gap-3">
-          <ThemeToggle /> {/* ✅ Dark Mode Toggle */}
+          <ThemeToggle />
+
+          {/* ✅ Logout Button */}
+          <button
+            onClick={handleLogout}
+            title="Logout"
+          >
+            <FaSignOutAlt  size={20}/>
+          </button>
+
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
             className="text-2xl lg:hidden focus:outline-none"
@@ -102,7 +114,7 @@ export default function Navbar() {
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
-        <ul className="p-4 space-y-3 overflow-y-auto h-[calc(100vh-4rem)]">
+        <ul className="p-4 space-y-3 overflow-y-auto scrollbar-hide h-[calc(100vh-4rem)]">
           {navItems.map((item, index) => (
             <li key={index}>
               {item.subItems ? (
@@ -122,7 +134,6 @@ export default function Navbar() {
                     />
                   </div>
 
-                  {/* Submenu */}
                   {activeSubmenu === index && (
                     <ul className="ml-8 mt-2 space-y-2">
                       {item.subItems.map((sub, subIndex) => (
@@ -165,14 +176,14 @@ export default function Navbar() {
         </ul>
       </div>
 
-      {/*  Desktop Sidebar */}
+      {/* Desktop Sidebar */}
       <div
         className={`hidden lg:block fixed top-0 left-0 pt-16 h-screen bg-blue-700 dark:bg-gray-900 text-white transition-all duration-300 ${
           desktopOpen ? "w-[260px]" : "w-0"
         }`}
       >
         <ul
-          className={`overflow-y-auto h-[calc(100vh-4rem)] p-4 space-y-3 ${
+          className={`overflow-y-auto scrollbar-hide h-[calc(100vh-4rem)] p-4 space-y-3 ${
             desktopOpen ? "block" : "hidden"
           }`}
         >
@@ -195,7 +206,6 @@ export default function Navbar() {
                     />
                   </div>
 
-                  {/* Submenu */}
                   {activeSubmenu === index && desktopOpen && (
                     <ul className="ml-8 mt-2 space-y-2">
                       {item.subItems.map((sub, subIndex) => (
@@ -237,13 +247,13 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/*  Desktop Toggle Button */}
+        {/* Desktop Toggle Button */}
         <div className="absolute top-14 right-[-35px]">
           <button
             onClick={toggleDesktop}
             className="text-2xl bg-blue-600 p-1 rounded-lg"
           >
-          <LuPanelBottomOpen/>
+            <LuPanelBottomOpen />
           </button>
         </div>
       </div>

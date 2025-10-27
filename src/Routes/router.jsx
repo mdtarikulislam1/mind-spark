@@ -9,17 +9,23 @@ import Received from "../Pages/Received";
 import Inventory from "../Pages/Inventory";
 import AddProduct from "../Pages/AddProduct";
 import Expense from "../Pages/Expense";
+import CreateUser from "../Pages/user/CreateUser";
+import Login from "../Pages/user/Login";
+import PrivateRoute from "./PrivateRoute";
 
 export const router = createBrowserRouter([
   {
     path: "/",
-    Component: RootLayout,
+    element: (
+      <PrivateRoute>
+          <RootLayout></RootLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
         Component: DashBoard,
       },
-
       // single component
       {
         path: "/sales",
@@ -59,5 +65,14 @@ export const router = createBrowserRouter([
         Component: History,
       },
     ],
+  },
+
+  {
+    path: "/createUser",
+    Component: CreateUser,
+  },
+  {
+    path: "/login",
+    Component: Login,
   },
 ]);

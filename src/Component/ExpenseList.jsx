@@ -18,7 +18,7 @@ export default function ExpenseList() {
         />
 
         <button
-          className="bg-blue-700 py-1.5 px-3 rounded-md font-semibold text-white flex justify-center items-center gap-1 cursor-pointer"
+          className="icon-btn"
           onClick={() => downloadSelected(containerRef, "report")}
         >
           <MdOutlineFileDownload size={20} />
