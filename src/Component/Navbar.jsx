@@ -9,9 +9,9 @@ import {
 } from "react-icons/fa";
 import { NavLink, useNavigate } from "react-router"; // ✅ Corrected import
 import useSidebarStore from "../Zustand-state/useSidebarStore";
-import { RiDashboardFill, RiFolderReceivedFill } from "react-icons/ri";
+import { RiDashboardFill } from "react-icons/ri";
 import { AiOutlineOrderedList } from "react-icons/ai";
-import { MdHistory, MdInventory, MdOutlineInventory } from "react-icons/md";
+import { MdInventory, MdOutlineInventory } from "react-icons/md";
 import { FcSalesPerformance } from "react-icons/fc";
 import { IoMdAdd } from "react-icons/io";
 import ThemeToggle from "./Shared/DarkModeToggle"; // ✅ working dark mode toggle
@@ -23,11 +23,11 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
   const { desktopOpen, toggleDesktop } = useSidebarStore();
-   const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleLogout = () => {
-    removeToken(); // localStorage থেকে token remove করো
-    navigate("/login"); // login page এ পাঠাও
+    removeToken(); 
+    navigate("/login"); 
   };
 
   const navItems = [
@@ -68,14 +68,7 @@ export default function Navbar() {
       icon: <GiExpense />,
       link: "/expenses",
     },
-    // {
-    //   name: "Settings",
-    //   icon: <FaCog />,
-    //   subItems: [
-    //     { name: "History", link: "/settings/history", icon: <MdHistory /> },
-    //     { name: "Create User", link: "/settings/createUser", icon: <MdHistory /> },
-    //   ],
-    // },
+    
   ];
 
   const toggleSubmenu = (index) => {
@@ -91,9 +84,10 @@ export default function Navbar() {
         <div className="flex items-center gap-3">
           <ThemeToggle />
 
-          {/* ✅ Logout Button */}
+          {/*Logout Button */}
           <button
             onClick={handleLogout}
+            className="text-white cursor-pointer"
             title="Logout"
           >
             <FaSignOutAlt  size={20}/>
@@ -101,7 +95,7 @@ export default function Navbar() {
 
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="text-2xl lg:hidden focus:outline-none"
+            className="text-2xl lg:hidden focus:outline-none cursor-pointer"
           >
             {mobileOpen ? <FaTimes /> : <FaBars />}
           </button>
